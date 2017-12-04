@@ -20,16 +20,16 @@ def connect_to_mongo(db, collection):
     return client[db][collection]
 
 
-class MyStreamer(TwythonStreamer):
+collection = connect_to_mongo("tweets", "sample_04_12_2017")
 
-    def __init__(self):
-        self.collection = connect_to_mongo("tweets", "sample_04_12_2017")
+
+class MyStreamer(TwythonStreamer):
 
     def on_success(self, data):
         if 'text' in data:
             print(data['text'])
-            self.collection.insert_one(data)
-            print self.collection.count()
+            collection.insert_one(data)
+            print collection.count()
 
     def on_error(self, status_code, data):
         print(status_code)
